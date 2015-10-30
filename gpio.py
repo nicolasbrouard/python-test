@@ -44,12 +44,12 @@ try:
         interval = millis_interval(previousPressedTime, pressedTime)
         print "previousPressedTime: ", previousPressedTime
         print "pressedTime: ", pressedTime
-        print "Instant interval: ", interval, " us [", interval / 1000, " ms]"
+        print "Instant interval: ", interval, " ms"
         pressedCount += 1
-        averageInterval = millis_interval(startTime, pressedTime) / pressedCount / 1000
+        averageInterval = millis_interval(startTime, pressedTime) / pressedCount
         print "presseCount: ", pressedCount
         print "Average interval: ", averageInterval, " ms"
         print "Average frequency: ", 1000.0 / averageInterval, " Hz"
-        print "Average rpm: ", 1000.0 / averageInterval * 60.0, " rpm"
+        print "Average rpm: ", 1000.0 / averageInterval * 60.0, " rpm\n"
 except KeyboardInterrupt:
     GPIO.cleanup()
