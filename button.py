@@ -16,7 +16,7 @@ def my_callback(channel):
 
 # when a falling edge is detected on port 17, regardless of whatever
 # else is happening in the program, the function my_callback will be run
-GPIO.add_event_detect(18, GPIO.BOTH, callback=my_callback, bouncetime=20)
+GPIO.add_event_detect(18, GPIO.FALLING, callback=my_callback, bouncetime=20)
 
 try:
     time.sleep(100)
