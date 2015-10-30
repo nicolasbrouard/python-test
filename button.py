@@ -11,8 +11,10 @@ GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 try:
     while True:
-        print GPIO.input(18)
-        time.sleep(0.01)
+        print "button released: ", GPIO.input(18)
+        GPIO.wait_for_edge(18, GPIO.FALLING)
+        print "button pressed:  ", GPIO.input(18)
+        GPIO.wait_for_edge(18, GPIO.RISING)
 
 except KeyboardInterrupt:
     print "Cleanup GPIO"
