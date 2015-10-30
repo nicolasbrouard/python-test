@@ -17,14 +17,19 @@ pressedTime = startTime
 loop = True
 average = 0
 pressedCount = 0
+lightOn = True
 
 # setup an indefinite loop that looks for the GPIO 2
 while loop:
 
     # door open detected
     GPIO.wait_for_edge(18, GPIO.RISING)
-    print("Button pushed!")
-    GPIO.output(17, True)
+
+    # Blink DEL on each button pressed
+    GPIO.output(17, not lightOn)
+    lightOn = not lightOn
+
+    # Calculate timing
     previousPressedTime = pressedTime
     pressedTime = datetime.now()
     interval = (pressedTime - previousPressedTime).microseconds / 1000
@@ -32,17 +37,14 @@ while loop:
     pressedCount += 1
     averageInterval = (pressedTime - startTime).microseconds / pressedCount / 1000
     print "Average interval: ", averageInterval, " ms"
-    print "Average frequency: ", 1000.0 / averageInterval, " ms"
-    if interval < 500:
+    print "Average frequency: ", 1000.0 / averageInterval, " Hz"
+    print "Average rpm: ", 1000.0 / averageInterval * 60.0, " rpm"
+
+    # Exit condition
+    if interval < 200:
         loop = False
 
-    # door closed detected
-    GPIO.wait_for_edge(18, GPIO.FALLING)
-    print("Button released!")
-    GPIO.output(17, False)
-    releaseTime = datetime.now()
-
-    print "Button pressed for ", (releaseTime - pressedTime).microseconds / 1000, " ms\n"
+GPIO.output(17, False)
 
 # cleanup
 GPIO.cleanup()

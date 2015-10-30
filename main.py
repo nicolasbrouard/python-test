@@ -31,3 +31,6 @@ reverse = l.reverse()
 stop = datetime.now()
 print stop
 print "Elapsed time: ", 1000.0 / (stop - start).microseconds, " ms"
+
+print True
+print not True
