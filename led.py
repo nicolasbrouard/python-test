@@ -1,12 +1,14 @@
 #!/usr/bin/python
-import RPi.GPIO
+import RPi.GPIO as GPIO
 import time
 
-RPi.GPIO.setmode(RPi.GPIO.BCM)
-RPi.GPIO.setup(2, RPi.GPIO.OUT)
+#setup GPIO using Broadcom SOC channel numbering
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(17, GPIO.OUT)
 while True:
-	RPi.GPIO.output(2, True)
-	time.sleep(0.05)
-	RPi.GPIO.output(2, False)
-	time.sleep(0.05)
+	GPIO.output(17, True)
+	time.sleep(0.5)
+	GPIO.output(17, False)
+	time.sleep(0.5)
 
