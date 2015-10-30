@@ -42,8 +42,8 @@ try:
         previousPressedTime = pressedTime
         pressedTime = datetime.now()
         interval = millis_interval(previousPressedTime, pressedTime)
-        print "previousPressedTime: " + previousPressedTime
-        print "pressedTime: " + pressedTime
+        print "previousPressedTime: ", previousPressedTime
+        print "pressedTime: ", pressedTime
         print "Instant interval: ", interval, " us [", interval / 1000, " ms]"
         pressedCount += 1
         averageInterval = millis_interval(startTime, pressedTime) / pressedCount / 1000
