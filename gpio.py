@@ -27,10 +27,10 @@ while loop:
     GPIO.output(17, True)
     previousPressedTime = pressedTime
     pressedTime = datetime.now()
-    interval = (pressedTime - previousPressedTime).microseconds * 1000
+    interval = (pressedTime - previousPressedTime).microseconds / 1000
     print "Instant interval: ", interval, " ms"
     pressedCount += 1
-    averageInterval = (pressedTime - startTime).microseconds / pressedCount * 1000
+    averageInterval = (pressedTime - startTime).microseconds / pressedCount / 1000
     print "Average interval: ", averageInterval, " ms"
     print "Average frequency: ", 1000.0 / averageInterval, " ms"
     if interval < 500:
@@ -42,7 +42,7 @@ while loop:
     GPIO.output(17, False)
     releaseTime = datetime.now()
 
-    print "Button pressed for ", (releaseTime - pressedTime).microseconds * 1000, " ms\n"
+    print "Button pressed for ", (releaseTime - pressedTime).microseconds / 1000, " ms\n"
 
 # cleanup
 GPIO.cleanup()
