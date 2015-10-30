@@ -2,9 +2,6 @@
 import RPi.GPIO as GPIO
 import time
 
-# cleanup
-GPIO.cleanup()
-
 # setup GPIO using Broadcom SOC channel numbering
 GPIO.setmode(GPIO.BCM)
 
