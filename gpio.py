@@ -19,32 +19,25 @@ average = 0
 pressedCount = 0
 lightOn = True
 
-# setup an indefinite loop that looks for the GPIO 2
-while loop:
+try:
+    while loop:
+        GPIO.wait_for_edge(18, GPIO.RISING)
 
-    # door open detected
-    GPIO.wait_for_edge(18, GPIO.RISING)
+        # Blink DEL on each button pressed
+        GPIO.output(17, not lightOn)
+        lightOn = not lightOn
 
-    # Blink DEL on each button pressed
-    GPIO.output(17, not lightOn)
-    lightOn = not lightOn
+        # Calculate timing
+        previousPressedTime = pressedTime
+        pressedTime = datetime.now()
+        interval = (pressedTime - previousPressedTime).microseconds / 1000
+        print "Instant interval: ", interval, " ms"
+        pressedCount += 1
+        averageInterval = (pressedTime - startTime).microseconds / pressedCount / 1000
+        print "Average interval: ", averageInterval, " ms"
+        print "Average frequency: ", 1000.0 / averageInterval, " Hz"
+        print "Average rpm: ", 1000.0 / averageInterval * 60.0, " rpm"
+except KeyboardInterrupt:
+    GPIO.cleanup()
 
-    # Calculate timing
-    previousPressedTime = pressedTime
-    pressedTime = datetime.now()
-    interval = (pressedTime - previousPressedTime).microseconds / 1000
-    print "Instant interval: ", interval, " ms"
-    pressedCount += 1
-    averageInterval = (pressedTime - startTime).microseconds / pressedCount / 1000
-    print "Average interval: ", averageInterval, " ms"
-    print "Average frequency: ", 1000.0 / averageInterval, " Hz"
-    print "Average rpm: ", 1000.0 / averageInterval * 60.0, " rpm"
 
-    # Exit condition
-    if interval < 200:
-        loop = False
-
-GPIO.output(17, False)
-
-# cleanup
-GPIO.cleanup()
