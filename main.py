@@ -1,4 +1,8 @@
 #!/usr/bin/python3.2
+from datetime import datetime
+
+start = datetime.now()
+print start
 
 print("Hello World!")
 
@@ -23,3 +27,7 @@ print(obj.test())
 
 l = list(range(0, 2, 1))
 reverse = l.reverse()
+
+stop = datetime.now()
+print stop
+print (stop - start).microseconds
