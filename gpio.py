@@ -52,6 +52,5 @@ try:
         print "Average frequency: ", 1000.0 / averageInterval, " Hz"
         print "Average rpm: ", 1000.0 / averageInterval * 60.0, " rpm\n"
 except KeyboardInterrupt:
-    print "Cleanup GPIO"
-    GPIO.output(17, not lightOn)
-    GPIO.cleanup()
+    GPIO.cleanup()       # clean up GPIO on CTRL+C exit
+GPIO.cleanup()           # clean up GPIO on normal exit
