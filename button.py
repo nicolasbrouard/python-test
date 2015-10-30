@@ -25,7 +25,7 @@ GPIO.add_event_detect(18, GPIO.FALLING, callback=my_callback, bouncetime=20)
 # when a falling edge is detected on port 23, regardless of whatever
 # else is happening in the program, the function my_callback2 will be run
 # 'bouncetime=300' includes the bounce control written into interrupts2a.py
-GPIO.add_event_detect(23, GPIO.RISING, callback=my_callback2, bouncetime=20)
+GPIO.add_event_detect(18, GPIO.RISING, callback=my_callback2, bouncetime=20)
 
 try:
     time.sleep(100)
