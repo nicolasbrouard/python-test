@@ -1,10 +1,10 @@
 #!/usr/bin/env python2.7
+# coding=utf-8
 
 # Written by Limor "Ladyada" Fried for Adafruit Industries, (c) 2015
 # This code is released into the public domain
 
 import time
-import os
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)
@@ -60,19 +60,58 @@ GPIO.setup(SPIMISO, GPIO.IN)
 GPIO.setup(SPICLK, GPIO.OUT)
 GPIO.setup(SPICS, GPIO.OUT)
 
-# 10k trim pot connected to adc #0
-potentiometer_adc = 0
+power = 5.0
+rounded = 3
+
+# Function to convert data to voltage level,
+# rounded to specified number of decimal places.
+def convert_volts(data, places):
+    volts = (data * power) / float(1023)
+    volts = round(volts, places)
+    return volts
+
+
+# Function to calculate temperature from
+# TMP36 data, rounded to specified
+# number of decimal places.
+def convert_temp(volt, places):
+    # ADC Value
+    # (approx)  Temp  Volts
+    #    0      -50    0.00
+    #   78      -25    0.25
+    #  155        0    0.50
+    #  233       25    0.75
+    #  310       50    1.00
+    #  465      100    1.50
+    #  775      200    2.50
+    # 1023      280    3.30
+
+    temp = (volt * float(100)) - float(50)
+    temp = round(temp, places)
+    return temp
 
 
 try:
     while True:
-        # read the analog pin
-        trim_pot = readadc(potentiometer_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
+        temp = readadc(0, SPICLK, SPIMOSI, SPIMISO, SPICS)
+        temp_volt = convert_volts(temp, rounded)
+        print "temp volt:", temp, temp_volt
+        print "temp °:", convert_temp(temp_volt, rounded)
 
-        print trim_pot
+        resistor = readadc(1, SPICLK, SPIMOSI, SPIMISO, SPICS)
+        print "resistor 300 ohms on 3.3V:", resistor, convert_volts(resistor, rounded)
+
+        ground = readadc(2, SPICLK, SPIMOSI, SPIMISO, SPICS)
+        print "0 Volts:", ground, convert_volts(ground, rounded)
+
+        mid = readadc(3, SPICLK, SPIMOSI, SPIMISO, SPICS)
+        print "3.3 Volts:", mid, convert_volts(mid, rounded)
+
+        high = readadc(4, SPICLK, SPIMOSI, SPIMISO, SPICS)
+        print "5 Volts:", high, convert_volts(high, rounded)
 
         # hang out and do nothing for a half second
         time.sleep(0.5)
 
 except KeyboardInterrupt:
-    GPIO.cleanup()       # clean up GPIO on CTRL+C exit
+    GPIO.cleanup()  # clean up GPIO on CTRL+C exit
