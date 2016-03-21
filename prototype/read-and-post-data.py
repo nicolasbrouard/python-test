@@ -185,10 +185,11 @@ try:
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(message)s',
                         handlers=[
-                            # logging.FileHandler("example1.log"),
+                            logging.FileHandler("read-and-post-data.log"),
                             logging.StreamHandler()
                         ])
 
+    logging.info('---------------------------')
     logging.info('Start read-and-post-data.py')
 
     # setup GPIO using Broadcom SOC channel numbering
