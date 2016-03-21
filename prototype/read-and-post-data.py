@@ -14,7 +14,7 @@ API_KEY = "4VIY5BGG2YK2VUL2"
 URL = "https://api.thingspeak.com/update"
 SUCCESS_LED = 20
 ERROR_LED = 21
-LED_ON_DURATION_SECONDS = 0.5
+LED_ON_DURATION_SECONDS = 2
 
 POWER_VOLTS = 5.0
 ROUNDED = 3
@@ -39,7 +39,7 @@ def error_led():
         GPIO.output(ERROR_LED, True)
         time.sleep(LED_ON_DURATION_SECONDS)
         GPIO.output(ERROR_LED, False)
-        time.sleep(LED_ON_DURATION_SECONDS)
+        time.sleep(0.5)
 
 
 # On success, light on success led and log
@@ -182,7 +182,7 @@ def convert_pressure(volts, places):
 
 
 try:
-    logging.basicConfig(level=logging.DEBUG,
+    logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(message)s',
                         handlers=[
                             # logging.FileHandler("example1.log"),
